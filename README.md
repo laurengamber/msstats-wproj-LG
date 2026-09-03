@@ -1,3 +1,8 @@
+# MS Statistics Writing Project Meeting Notes
+9/3/26
+
+
+
 # MS Statistics Writing Project Template
 
 This repository contains both an RMD and a Latex template for formatting a writing project required
