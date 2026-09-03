@@ -1,6 +1,6 @@
 # MS Statistics Writing Project Meeting Notes
 9/3/26
-
+- to do
 
 
 # MS Statistics Writing Project Template
