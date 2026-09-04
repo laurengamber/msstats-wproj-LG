@@ -1,13 +1,13 @@
 # MS Statistics Writing Project Meeting Notes
 9/3/26
-- General plan: Strategies for the game Monopoly
+- General Project Outline: Strategies for the game Monopoly
   - Compare (1) Markov Chains Approach to (2) Expected Values/Decision Theory Approach
   - Build an R Shiny app that teaches one of the approaches to win Monopoly
 
   Timeline/Goals:
-  - Semester goal: have the literature review done and written by early November
-  - as of 9/4/26, GitHub repo and Zotero are set up
-  - Next to-dos before next meeting: literature review of Markov Chains content-wise and explore Monopoly game rules
+  - Semester goal: have the literature review done and written formally by early November
+  - As of 9/4/26, GitHub repo and Zotero are set up and shared
+  - **Next to-dos before next meeting: literature review of Markov Chains content-wise and explore Monopoly game rules**
     
 # MS Statistics Writing Project Template
 
