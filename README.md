@@ -1,5 +1,15 @@
 # MS Statistics Writing Project Meeting Notes
-9/3/26
+
+## 9/17/26
+_Discussion_:
+* Keep the number of states at 40, but probabilities may be more complicated (accounting for doubles rule)
+
+_Goals for next meeting_:
+* Attempt to write out transition matrix
+* Take some notes on readings (Zotero)
+* Fill in details in Zotero library that we'll need for .bib file
+
+## 9/3/26
 - General Project Outline: Strategies for the game Monopoly
   - Compare (1) Markov Chains Approach to (2) Expected Values/Decision Theory Approach
   - Build an R Shiny app that teaches one of the approaches to win Monopoly
