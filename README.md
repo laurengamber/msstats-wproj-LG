@@ -7,6 +7,7 @@ _Discussion_:
 
 _Goals for next meeting_:
 * Add folder for code in this repo and upload code.
+* Add comments to code that describes what each step does.
 * Write up description of how you constructed the transition matrix and upload to repo.
 * Think about how you want to organize folders in repo for writing.
 
