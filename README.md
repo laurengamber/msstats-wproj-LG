@@ -1,5 +1,14 @@
 # MS Statistics Writing Project Meeting Notes
 
+## 10/1/26
+_Discussion_:
+* Set "human decision probabilities" as variables at the start of the code (e.g., whether player pays $50 to get out of jail).
+* R package "markovchain" - has function to check if it's a valid transition matrix (irreducible, all states communicate, regular, period = 1). Also checked that all rows sum to 1.
+
+_Goals for next meeting_:
+* Add folder for code in this repo and upload code.
+* Write up description of how you constructed the transition matrix and upload to repo.
+
 ## 9/17/26
 _Discussion_:
 * Keep the number of states at 40, but probabilities may be more complicated (accounting for doubles rule)
