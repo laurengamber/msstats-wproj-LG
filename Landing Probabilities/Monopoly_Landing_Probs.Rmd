@@ -1,0 +1,284 @@
+---
+title: "Monopoly Landing Probabilities"
+author: "Lauren Gamber"
+date: "2026-09-26"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+spaces <- read.csv("Monopoly(Spaces).csv")
+head(spaces)
+```
+
+```{r}
+moves <- c(2,3,4,5,6,7,8,9,10,11,12)
+
+probs <- c(1/36, 2/36, 3/36, 4/36, 5/36, 6/36,
+                5/36, 4/36, 3/36, 2/36, 1/36)
+
+probs_doub <- c(1/36,0,1/36,0,1/36,0,1/36,0,1/36,0,1/36)
+
+probs_nondoub <- probs - probs_doub
+
+dice <- as.data.frame(cbind(moves,probs,probs_doub,probs_nondoub))
+```
+
+
+```{r, eval = FALSE}
+#Transition Matrix (ignoring double rules)
+P <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+
+for(currentstate in 1:40){
+  for(dice_sum in 1:nrow(dice)){
+    newstate <- currentstate + dice$moves[dice_sum]
+    if (newstate > 40){
+      newstate <- newstate - 40
+    }
+    P[currentstate, newstate] <- P[currentstate, newstate] + dice$probs[dice_sum]
+    
+  }
+}
+
+rowSums(P)
+```
+
+
+```{r}
+#Transition Matrix (with double rules)
+P2 <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+N <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+D <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+
+for(currentstate in 1:40){
+  for(dice_sum in 1:nrow(dice)){
+    newstate <- currentstate + dice$moves[dice_sum]
+    if (newstate > 40){
+      newstate <- newstate - 40
+    }
+    
+    N[currentstate, newstate] <- N[currentstate, newstate] + dice$probs_nondoub[dice_sum]
+    D[currentstate, newstate] <- D[currentstate, newstate] + dice$probs_doub[dice_sum]
+  }
+}
+
+
+P2 <- N + (D %*% N) + (D %*% D %*% N)
+
+P2[,31] <- P2[,31] + (1/6)^3
+
+rowSums(P2)
+```
+
+```{r}
+#Transition Matrix (with double rules and Community Chest and Chance Cards)
+C <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+
+for (currentstate in 1:40){
+  
+  #Chance squares
+  if(currentstate == 8| currentstate == 23 | currentstate == 37){
+    C[currentstate, currentstate] <- 6/16
+    C[currentstate, 1] <- 1/16
+    C[currentstate, 6] <- 1/16
+    C[currentstate, 12] <- 1/16
+    C[currentstate, 25] <- 1/16
+    C[currentstate, 31] <- 1/16
+    C[currentstate, 40] <- 1/16
+  } 
+  
+  #Go back 3 steps
+  if(currentstate == 8){
+    C[currentstate, 5] <- 1/16
+  }
+  
+  if(currentstate == 23){
+    C[currentstate, 20] <- 1/16
+  }
+  
+  if(currentstate == 37){
+    C[currentstate, 34] <- 1/16 * 14/16
+    C[currentstate, 1] <-  C[currentstate, 1] + (1/16* 1/16)
+    C[currentstate, 31] <-  C[currentstate, 31] + (1/16*1/16)
+  }
+  
+  # Nearest RailRoad
+  if(currentstate == 8){
+    C[currentstate, 16] <- 2/16
+  }
+  
+  if(currentstate == 23){
+    C[currentstate, 26] <- 2/16
+  }
+  
+  if(currentstate == 37){
+    C[currentstate, 6] <- C[currentstate,6] + 2/16
+  }
+  
+  #Nearest Ultility
+  if(currentstate == 8){
+    C[currentstate, 13] <- 1/16
+  }
+  
+  if(currentstate == 23){
+    C[currentstate, 29] <- 1/16
+  }
+  
+  if(currentstate == 37){
+    C[currentstate, 13] <- C[currentstate, 13] + 1/16
+  }
+  
+  #Community Chest
+  if (currentstate == 3| currentstate == 18 | currentstate == 34){
+    C[currentstate, currentstate] <- C[currentstate,currentstate] + 14/16
+    C[currentstate, 1] <-  C[currentstate, 1] + 1/16
+    C[currentstate, 31] <-  C[currentstate, 31] + 1/16
+  }
+  
+  if(currentstate != 3 & currentstate != 18 & currentstate != 34& currentstate != 8 & currentstate != 23 & currentstate != 37 ) {
+    C[currentstate, currentstate] <- 1
+   
+    
+    }
+    
+}  
+
+#Preventing leaving from jail
+N[31,]<- 0
+N[31,31] <- 1
+D[31, ] <- 0
+
+NC <- N %*% C
+DC <- D %*% C
+
+
+P3 <- NC + (DC %*% NC) + (DC %*% DC %*% NC)
+
+P3[,31] <- P3[,31] + rowSums(DC %*% DC %*% DC)
+
+rowSums(P3)
+
+```
+
+
+```{r}
+#Transition Matrix (with double rules and Community Chest and Chance Cards and Jail Square)
+
+J <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+
+for(currentstate in 1:40){
+ if (currentstate == 31){
+   J[currentstate, 11] <- 1
+ }
+  
+  if(currentstate != 31){
+    J[currentstate, currentstate] <-1
+  }
+}
+  
+P4 <- J %*% P3
+
+rowSums(P4)
+```
+
+```{r}
+Jail_choices <- function(transition_matrix, prob_choosing, C){
+  
+  og_row <- transition_matrix[31, ]
+  
+  transition_matrix[31, ] <- prob_choosing[1] * og_row
+  
+  transition_matrix[31, ] <- transition_matrix[31, ] + prob_choosing[2] * og_row
+  
+  for (dice1 in 1:6){
+    for (dice2 in 1:6){
+  
+  if(dice1 == dice2){
+    currentstate <- 11 + dice1 + dice2
+    transition_matrix[31, ] <- transition_matrix[31, ] + prob_choosing[3] * 1/36 * C[currentstate, ]
+  } else {
+    transition_matrix[31,31] <- transition_matrix[31,31] + prob_choosing[3] * 1/36
+  }
+  }
+  }
+  return(transition_matrix)
+}
+
+P5 <- Jail_choices(P4, c(0.6,0.1,0.3), C)
+rowSums(P5)
+```
+
+
+
+```{r}
+probchoosing[1]
+  
+P4 <- J %*% P3
+
+rowSums(P4)
+```
+
+
+
+```{r}
+P4_df <- as.data.frame(P4)
+```
+
+
+```{r}
+library(markovchain)
+squares <- as.character(spaces[[2]])
+
+Mboard <- new("markovchain",
+              states = squares,
+              byrow = TRUE,
+              transitionMatrix = P5,
+              name = "Monopoly")
+
+#steadyStates(Mboard)
+absorbingStates(Mboard)
+is.irreducible(Mboard)
+is.regular(Mboard)
+is.stochasticallyMonotone(Mboard)
+period(Mboard)
+```
+
+
+
+```{r, eval = FALSE}
+
+## Beginning Simulations
+B <- 10000
+landing <- numeric(B)
+landing2 <- numeric(B)
+
+
+currentstate_sim <- 1
+for (i in 1:B){
+    dice1 <- sample(1:6, size = 1, replace = TRUE)
+    dice2 <- sample(1:6, size = 1, replace = TRUE)
+    dice_sum <- sum(dice1, dice2)
+    currentstate_sim  <-  currentstate_sim + dice_sum
+    if(currentstate_sim > 40){
+      currentstate_sim <- currentstate_sim - 40
+    }
+    
+    landing[i] <- currentstate_sim
+    
+    if(dice1 == dice2){
+        dice1_2 <- sample(1:6, size = 1, replace = TRUE)
+        dice2_2 <- sample(1:6, size = 1, replace = TRUE)
+        dice_sum2 <- sum(dice1, dice2)
+    }
+}
+
+table(landing)/B
+```
+
+
+
