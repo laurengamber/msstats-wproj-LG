@@ -5,7 +5,7 @@ date: "2026-10-03"
 output: pdf_document
 header-includes:
 - \usepackage{textcomp} % for the Won symbol 
-- \usepackage{graphicx} % Needed for the rotation
+- \usepackage{graphicx} 
 ---
 
 ```{r setup, include=FALSE}
@@ -15,19 +15,30 @@ knitr::opts_chunk$set(echo = TRUE)
 notation for monopoly money: $\rotatebox[origin=c]{180}{\textwon}$ from stack exchange post
 
 
-## Game Rules 
+# Game Rules 
 
-In Monopoly, players move around the board buying and building on properties to collect more rent and become the wealthiest player. The game ends when all but one player has gone bankrupt. To set up the game, one player is assigned as the banker, the banker is responsible for the bank's money, houses, hotels, title deed cards, and auctions. The banker is permitted to be a player as well. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player choose a token that 
+In Monopoly, players move around the board buying and building on properties to collect more rent and become the wealthiest player. The game ends when all but one player has gone bankrupt. 
 
-
-Figure ##, shows the layout of the board. On the board, there are 
-
-
+## Set Up
+To set up the game, assign one player as the banker; the banker is responsible for the bank's money, houses, hotels, title deed cards, and auctions. The banker may also be a player. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player chooses a token to move around the board. Additionally, shuffle the community chest and chance cards. To begin the game, place each player’s token on the GO space. On each turn, a player rolls two fair dice, then moves the sum. Figure ## shows the layout of the board. The board has 40 landable spaces. Movement is circular, so once a player reaches the 40th landable space, movement resumes on the 1st landable space. The action taken after moving the token by the sum of the dice depends on the type of space landed on.
 
 ```{r}
-
-
+#Picture of the Monopoly Board 
 ```
+
+## Property Spaces
+If a player lands on an unowned property, they can choose to buy it for the listed price. If the player chooses not to buy the property at the listed price, the property goes up for auction. During the auction, the banker sells the property to the highest bidder; all players are permitted to bid. The banker gives the deed title to whoever bought the property. If no player bids, then that property remains unowned. If a player lands on a property owned by another player, that player owes the rent listed on the title deed card. The amount owed depends on how many properties of the same color are owned and how many houses are built.
+
+## RailRoad Stations
+
+## Utilites 
+
+## Unique Spaces
+
+## Doubles 
+
+If doubles are rolled, meaning both dice show the same number, the player carries out their turn as usual, but at the end of their turn, they roll again to take another turn. If a player rolls doubles a third time, they are sent to Jail. 
+
 
 
 
