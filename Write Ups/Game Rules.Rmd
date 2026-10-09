@@ -3,28 +3,31 @@ title: "Monopoly Game Rules"
 author: "Lauren Gamber"
 date: "2026-10-03"
 output: pdf_document
+header-includes:
+- \usepackage{textcomp} % for the Won symbol 
+- \usepackage{graphicx} % Needed for the rotation
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+notation for monopoly money: $\rotatebox[origin=c]{180}{\textwon}$ from stack exchange post
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Game Rules 
 
-```{r cars}
-summary(cars)
+In Monopoly, players move around the board buying and building on properties to collect more rent and become the wealthiest player. The game ends when all but one player has gone bankrupt. To set up the game, one player is assigned as the banker, the banker is responsible for the bank's money, houses, hotels, title deed cards, and auctions. The banker is permitted to be a player as well. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player choose a token that 
+
+
+Figure ##, shows the layout of the board. On the board, there are 
+
+
+
+```{r}
+
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
