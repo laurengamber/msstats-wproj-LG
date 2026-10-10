@@ -31,7 +31,7 @@ dice <- as.data.frame(cbind(moves,probs,probs_doub,probs_nondoub))
 
 
 ```{r, eval = FALSE}
-#Transition Matrix (ignoring double rules)
+# Transition Matrix (ignoring double rules)
 P <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
 
 for(currentstate in 1:40){

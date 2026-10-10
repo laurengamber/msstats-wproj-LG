@@ -19,26 +19,54 @@ notation for monopoly money: $\rotatebox[origin=c]{180}{\textwon}$ from stack ex
 
 In Monopoly, players move around the board buying and building on properties to collect more rent and become the wealthiest player. The game ends when all but one player has gone bankrupt. 
 
-## Set Up
-To set up the game, assign one player as the banker; the banker is responsible for the bank's money, houses, hotels, title deed cards, and auctions. The banker may also be a player. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player chooses a token to move around the board. Additionally, shuffle the community chest and chance cards. To begin the game, place each player’s token on the GO space. On each turn, a player rolls two fair dice, then moves the sum. Figure ## shows the layout of the board. The board has 40 landable spaces. Movement is circular, so once a player reaches the 40th landable space, movement resumes on the 1st landable space. The action taken after moving the token by the sum of the dice depends on the type of space landed on.
+## Game Set Up
+To set up the game, assign one player as the banker; the banker is responsible for the bank's money, houses, hotels, title deed cards, and auctions. The banker may also be a player. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player chooses a token to move around the board. Additionally, shuffle the community chest and chance cards. To begin the game, place each player’s token on the GO space. On each turn, a player rolls two fair dice, then moves the sum. Figure ## shows the layout of the board. The board has 40 landable spaces. Game movement is circular, so once a player reaches the 40th landable space, movement resumes on the 1st landable space. The action taken after moving the token by the sum of the dice depends on the type of space landed on.
 
 ```{r}
 #Picture of the Monopoly Board 
 ```
 
 ## Property Spaces
-If a player lands on an unowned property, they can choose to buy it for the listed price. If the player chooses not to buy the property at the listed price, the property goes up for auction. During the auction, the banker sells the property to the highest bidder; all players are permitted to bid. The banker gives the deed title to whoever bought the property. If no player bids, then that property remains unowned. If a player lands on a property owned by another player, that player owes the rent listed on the title deed card. The amount owed depends on how many properties of the same color are owned and how many houses are built.
 
-## RailRoad Stations
+### Unowned Properties
+If a player lands on an unowned property, they can choose to buy it for the listed price. If the player chooses not to buy the property at the listed price, the property goes up for auction. During the auction, bidding starts at \rotatebox[origin=c]{180}{\textwon}10 and the banker sells the property to the highest bidder; all players are permitted to bid. The banker gives the deed title to whoever bought the property. If no player bids, then that property remains unowned. 
 
-## Utilites 
+### Owned Properties
 
-## Unique Spaces
+If a player lands on a property owned by another player, that player owes the rent listed on the title deed card. The amount owed depends on how many properties of the same color are owned and how many houses are built. ADD railroads, utilities
+
+## Action Spaces 
+Upon landing on the following spaces, the player follows these instructions.
+
+### Go
+The player collects \rotatebox[origin=c]{180}{\textwon}200. 
+
+### Free Parking
+The player does nothing.
+
+### Go to Jail
+The player moves their token to Jail, and does not collect \rotatebox[origin=c]{180}{\textwon}200 if that player passes the GO space.
+
+### Just Visiting 
+The player does nothing.
+
+### Chance and Community Chest
+The player selects the top card and follows the card's instructions. An assumption for this paper, is that the player after carrying out the card's instructions will put the card back and shuffle the deck.
+
+### Income Tax
+The player will pay the bank \rotatebox[origin=c]{180}{\textwon}? for landing on Income Tax.
+
+### Luxury Tax
+The player will pay the bank \rotatebox[origin=c]{180}{\textwon}? for landing on Luxury Tax.
 
 ## Doubles 
-
 If doubles are rolled, meaning both dice show the same number, the player carries out their turn as usual, but at the end of their turn, they roll again to take another turn. If a player rolls doubles a third time, they are sent to Jail. 
 
+
+## Jail
+
+
+## Brankruptcy
 
 
 
