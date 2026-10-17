@@ -12,20 +12,28 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+#Data file of spaces and positions on the game board
 spaces <- read.csv("Monopoly(Spaces).csv")
 head(spaces)
 ```
 
+
+
 ```{r}
+# Possible sums for two 6-sided die
 moves <- c(2,3,4,5,6,7,8,9,10,11,12)
 
+# Probability of each sum for two 6-sided die
 probs <- c(1/36, 2/36, 3/36, 4/36, 5/36, 6/36,
                 5/36, 4/36, 3/36, 2/36, 1/36)
 
+# Probability of each sum from a double sum roll for two 6-sided die
 probs_doub <- c(1/36,0,1/36,0,1/36,0,1/36,0,1/36,0,1/36)
 
+# Probability of each sum from a nondouble sum for two 6-sided die
 probs_nondoub <- probs - probs_doub
 
+# Combine into one data.frame
 dice <- as.data.frame(cbind(moves,probs,probs_doub,probs_nondoub))
 ```
 
@@ -34,65 +42,87 @@ dice <- as.data.frame(cbind(moves,probs,probs_doub,probs_nondoub))
 # Transition Matrix (ignoring double rules)
 P <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
 
+# Looping through every position and every die sum
 for(currentstate in 1:40){
   for(dice_sum in 1:nrow(dice)){
     newstate <- currentstate + dice$moves[dice_sum]
+    
+    #Start at position 1 once player reaches position 40
     if (newstate > 40){
       newstate <- newstate - 40
     }
+    
+    # Adding the probability of landing on a new space from current space to transition matrix
     P[currentstate, newstate] <- P[currentstate, newstate] + dice$probs[dice_sum]
     
   }
 }
 
+# Checking that each row adds up to 1
 rowSums(P)
 ```
 
 
 ```{r}
 #Transition Matrix (with double rules)
-P2 <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+P_doub <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+
+# N represent the matrix of non double die rolls
 N <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
+
+# D represent the matrix of double die rolls
 D <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
 
+# Looping through every position and every die sum
 for(currentstate in 1:40){
   for(dice_sum in 1:nrow(dice)){
     newstate <- currentstate + dice$moves[dice_sum]
+    
+    #Start at position 1 once player reaches position 40
     if (newstate > 40){
       newstate <- newstate - 40
     }
-    
+    # Adding the probability of landing on a new space from current space to N matrix
     N[currentstate, newstate] <- N[currentstate, newstate] + dice$probs_nondoub[dice_sum]
+    
+    # Adding the probability of landing on a new space from current space to D matrix
     D[currentstate, newstate] <- D[currentstate, newstate] + dice$probs_doub[dice_sum]
   }
 }
 
+# Turn possibilities (N, D and N, or D,D,and N)
+P_doub <- N + (D %*% N) + (D %*% D %*% N)
 
-P2 <- N + (D %*% N) + (D %*% D %*% N)
+#Straight to jail if rolls 3 doubles
+P_doub[,31] <- P_doub[,31] + (1/6)^3
 
-P2[,31] <- P2[,31] + (1/6)^3
-
-rowSums(P2)
+# Checking that each row adds up to 1
+rowSums(P_doub)
 ```
 
 ```{r}
 #Transition Matrix (with double rules and Community Chest and Chance Cards)
+
+# C represent the matrix the player's move when they draw a Chance or community Chest card
 C <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
 
 for (currentstate in 1:40){
   
   #Chance squares
   if(currentstate == 8| currentstate == 23 | currentstate == 37){
+    # 6 out of 16 cards result in no movement
     C[currentstate, currentstate] <- 6/16
-    C[currentstate, 1] <- 1/16
-    C[currentstate, 6] <- 1/16
-    C[currentstate, 12] <- 1/16
-    C[currentstate, 25] <- 1/16
-    C[currentstate, 31] <- 1/16
-    C[currentstate, 40] <- 1/16
+    
+    # Cards that send the player to a space
+    C[currentstate, 1] <- 1/16 # Go
+    C[currentstate, 6] <- 1/16 # Reading Railroad
+    C[currentstate, 12] <- 1/16 # St. Charles Place
+    C[currentstate, 25] <- 1/16 # Illinois Avenue
+    C[currentstate, 31] <- 1/16 # Jail
+    C[currentstate, 40] <- 1/16 # Boardwalk
   } 
   
-  #Go back 3 steps
+  #Go back 3 steps chance card
   if(currentstate == 8){
     C[currentstate, 5] <- 1/16
   }
@@ -100,14 +130,20 @@ for (currentstate in 1:40){
   if(currentstate == 23){
     C[currentstate, 20] <- 1/16
   }
-  
+  # Going back 3 spaces from chance 37 lands of Community Chest
   if(currentstate == 37){
+    
+    # Drawing chance card of go back 3 spaces and drawing community chest card that results in no movement
     C[currentstate, 34] <- 1/16 * 14/16
+    
+    # Drawing chance card of go back 3 spaces and drawing the sent to GO community chest card 
     C[currentstate, 1] <-  C[currentstate, 1] + (1/16* 1/16)
+    
+    # Drawing chance card of go back 3 spaces and drawing the sent to jail community chest card 
     C[currentstate, 31] <-  C[currentstate, 31] + (1/16*1/16)
   }
   
-  # Nearest RailRoad
+  # Nearest RailRoad (there are 2 of these cards)
   if(currentstate == 8){
     C[currentstate, 16] <- 2/16
   }
@@ -116,6 +152,7 @@ for (currentstate in 1:40){
     C[currentstate, 26] <- 2/16
   }
   
+  # Adding these cards to existing probabilities of Reading Railroad space
   if(currentstate == 37){
     C[currentstate, 6] <- C[currentstate,6] + 2/16
   }
@@ -129,83 +166,115 @@ for (currentstate in 1:40){
     C[currentstate, 29] <- 1/16
   }
   
+  # Adding these cards to existing probabilities of Electric Company space
   if(currentstate == 37){
     C[currentstate, 13] <- C[currentstate, 13] + 1/16
   }
   
   #Community Chest
   if (currentstate == 3| currentstate == 18 | currentstate == 34){
+    
+     # 14 out of 16 cards result in no movement
     C[currentstate, currentstate] <- C[currentstate,currentstate] + 14/16
+    
+    # Adding advance to GO card to existing probabilities of GO space
     C[currentstate, 1] <-  C[currentstate, 1] + 1/16
+    
+  # Adding sent to Jail card to existing probabilities of Jail space
     C[currentstate, 31] <-  C[currentstate, 31] + 1/16
   }
   
+  # For every space that is not Chance or Community Chest, the probability of staying put is 1
   if(currentstate != 3 & currentstate != 18 & currentstate != 34& currentstate != 8 & currentstate != 23 & currentstate != 37 ) {
     C[currentstate, currentstate] <- 1
    
-    
     }
-    
 }  
 
 #Preventing leaving from jail
+# Turn ends once sent to jail
+#Set Jail as an absorbing state
 N[31,]<- 0
 N[31,31] <- 1
 D[31, ] <- 0
 
+# Each turn is roll dice then draw card if required
 NC <- N %*% C
 DC <- D %*% C
 
+# Turn possibilities (NC, DC and NC, or DC,DC,and NC)
+P_doub_C <- NC + (DC %*% NC) + (DC %*% DC %*% NC)
 
-P3 <- NC + (DC %*% NC) + (DC %*% DC %*% NC)
+#Straight to jail if rolls 3 doubles
+P_doub_C[,31] <- P_doub_C[,31] + rowSums(DC %*% DC %*% DC)
 
-P3[,31] <- P3[,31] + rowSums(DC %*% DC %*% DC)
-
-rowSums(P3)
-
+# Checking that each row adds up to 1
+rowSums(P_doub_C)
 ```
 
 
 ```{r}
 #Transition Matrix (with double rules and Community Chest and Chance Cards and Jail Square)
 
+# J represents the jail space and position so the player leaves jail from position 11
 J <- matrix(0, nrow = 40, ncol = 40, dimnames = c(spaces[2],spaces[2]))
 
 for(currentstate in 1:40){
+  
+  # Set the jail square to be position 11
  if (currentstate == 31){
    J[currentstate, 11] <- 1
  }
-  
+
+  # Every other space remains the same
   if(currentstate != 31){
     J[currentstate, currentstate] <-1
   }
 }
   
-P4 <- J %*% P3
+# Apply the J matrix to the P_doub_C matrix 
+P_doub_C_J <- J %*% P_doub_C
 
-rowSums(P4)
+# Checking that each row adds up to 1
+rowSums(P_doub_C_J)
 ```
 
 ```{r}
+# Function for the different human choice of getting out of jail
+## Inputs: transition matrix
+### transition matrix
+### prob_choosing- the probability of choosing each option (pay the fine, use get out jail card, roll for doubles)
+### C- matrix that determines movement with chance and community chest spaces
+
 Jail_choices <- function(transition_matrix, prob_choosing, C){
   
-  og_row <- transition_matrix[31, ]
+  #current jail of the transition
+  current_row <- transition_matrix[31, ]
   
-  transition_matrix[31, ] <- prob_choosing[1] * og_row
+  #pay fine: no change to current jail row
+  transition_matrix[31, ] <- prob_choosing[1] * current_row
+  #Use Get out Jail card: no change to current jail row
+  transition_matrix[31, ] <- transition_matrix[31, ] + prob_choosing[2] * current_row
   
-  transition_matrix[31, ] <- transition_matrix[31, ] + prob_choosing[2] * og_row
-  
+  #For every two sided die roll possibilities
   for (dice1 in 1:6){
     for (dice2 in 1:6){
   
+  #Roll doubles
   if(dice1 == dice2){
+    
+    #Current space is now sum of die moving from position 11
+    # Treating each roll as unique there are 1/36 possible rolls  
     currentstate <- 11 + dice1 + dice2
     transition_matrix[31, ] <- transition_matrix[31, ] + prob_choosing[3] * 1/36 * C[currentstate, ]
   } else {
+    
+    #Remain in Jail 
+    # Treating each roll as unique there are 1/36 possible rolls 
     transition_matrix[31,31] <- transition_matrix[31,31] + prob_choosing[3] * 1/36
+    }
   }
-  }
-  }
+}
   return(transition_matrix)
 }
 
@@ -215,13 +284,7 @@ rowSums(P5)
 
 
 
-```{r}
-probchoosing[1]
-  
-P4 <- J %*% P3
 
-rowSums(P4)
-```
 
 
 
@@ -252,7 +315,7 @@ period(Mboard)
 
 ```{r, eval = FALSE}
 
-## Beginning Simulations
+## Simulations
 B <- 10000
 landing <- numeric(B)
 landing2 <- numeric(B)
