@@ -11,3 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Transition Matrix 
 
+Definition of Transition matrix 
+
+In the game monopoly, there are 40 landable 
