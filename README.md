@@ -1,5 +1,10 @@
 # MS Statistics Writing Project Meeting Notes
 
+## 10/29/26
+_Goals for next meeting_:
+* Make sure to keep references up to date - add everything to .bib file. Include in-line references when needed ("\cite{}..."). For example, Monopoly money symbol stack exchange post, game rules. Also keep synced with Zotero library.
+* Finish goals from last meeting.
+
 ## 10/1/26
 _Discussion_:
 * Set "human decision probabilities" as variables at the start of the code (e.g., whether player pays $50 to get out of jail).
