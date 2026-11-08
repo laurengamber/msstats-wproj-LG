@@ -19,8 +19,8 @@ notation for monopoly money: $\rotatebox[origin=c]{180}{\textwon}$ from stack ex
 
 In Monopoly, players move around the board buying and building on properties to collect more rent and become the wealthiest player. The game ends when all but one player has gone bankrupt. 
 
-## Game Set Up
-To set up the game, assign one player as the banker; the banker is responsible for the bank's money, houses, hotels, title deed cards, and auctions. The banker may also be a player. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player chooses a token to move around the board. Additionally, shuffle the community chest and chance cards. To begin the game, place each player’s token on the GO space. On each turn, a player rolls two fair dice, then moves the sum. Figure ## shows the layout of the board. The board has 40 landable spaces. Game movement is circular, so once a player reaches the 40th landable space, movement resumes on the 1st landable space. The action taken after moving the token by the sum of the dice depends on the type of space landed on.
+## Game Setup
+To set up the game, assign one player as the banker; the banker manages the bank's money, houses, hotels, title deed cards, and auctions. The banker may also be a player. The banker gives each player a starting wealth of \rotatebox[origin=c]{180}{\textwon} 1500 (5 x \rotatebox[origin=c]{180}{\textwon} 1, 5 x \rotatebox[origin=c]{180}{\textwon} 5, 4 x \rotatebox[origin=c]{180}{\textwon} 10, 4 x \rotatebox[origin=c]{180}{\textwon} 20, 3 x \rotatebox[origin=c]{180}{\textwon} 50, 2 x \rotatebox[origin=c]{180}{\textwon} 100, 2 x \rotatebox[origin=c]{180}{\textwon} 500 ). Each player chooses a token to move around the board. Additionally, shuffle the community chest and chance cards. To begin the game, place each player’s token on the GO space. On each turn, a player rolls two fair dice, then moves the sum. Figure 1 shows the board layout. The board has 40 landable spaces. Game movement is circular, so once a player reaches the 40th landable space, movement resumes on the 1st landable space. The action taken after moving the token by the sum of the dice depends on the type of space landed on.
 
 ```{r, echo=FALSE, out.width = "50%", fig.align = "center"}
 #Picture of the Monopoly Board 
@@ -30,7 +30,7 @@ knitr::include_graphics("C:/Users/laure/Desktop/WProj/msstats-wproj-LG/Write Ups
 
 ## Property Spaces
 
-Property spaces come in three types: streets, railroads, and utilities. There are 2 utilities, 4 railroads, and 8 street color sets. Each color set has 3 streets, except the brown and royal blue color sets, which have 2 streets.
+Property spaces come in three types: streets, railroads, and utilities. The game has 2 utilities, 4 railroads, and 8 street color sets. Each color set has 3 streets, except the brown and royal blue color sets, which have 2 streets.
 
 ### Unowned Properties
 
@@ -38,7 +38,7 @@ If a player lands on an unowned property, they can choose to buy it for the list
 
 ### Owned Properties
 
-If a player lands on a street property owned by another player, that player owes the rent listed on the title deed card. The amount owed depends on how many street properties of the same color are owned and how many houses are built.
+If a player lands on a street property owned by another player, that player owes the rent listed on the title deed card. The amount owed depends on how many street properties of the same color the owner has and how many houses are built.
 
 If a player lands on a railroad owned by another player, that player owes rent based on how many railroads the owner has. For 1 owned railroad, \rotatebox[origin=c]{180}{\textwon}25 the player owes, for 2 \rotatebox[origin=c]{180}{\textwon}50, for 3 \rotatebox[origin=c]{180}{\textwon}100, and 4 owned railroads \rotatebox[origin=c]{180}{\textwon}200 the player owes.
 
@@ -50,7 +50,7 @@ The owner must ask for rent during the player’s turn. If the owner doesn’t a
 
 For streets, completing a color set has its advantages. Once a player acquires all street properties in a color set, the player may buy houses from the bank to increase the rent due to other players. There are a few constraints: a player can have at most 4 houses on one street property at a given moment, and the 4 houses can be upgraded for the cost listed on the street’s deed. Only one hotel is allowed per street property. Additionally, a player has to place houses evenly across streets in that color set. Also, no additional houses can be placed on any street if any street in its color set is mortgaged.
 
-There is a limited number of houses and hotels available, so if multiple players want to buy the last house or hotel, that house or hotel is auctioned off to the highest bidder. Once no buildings or hotels remain, players must wait until a player sells theirs back to the bank.
+A limited number of houses and hotels are available, so if multiple players want to buy the last house or hotel, it is auctioned to the highest bidder. Once no buildings or hotels remain, players must wait until a player sells theirs back to the bank.
 
 ## Action Spaces
 
@@ -93,7 +93,7 @@ If doubles are rolled, meaning both dice show the same number, the player takes 
 Once a player is sent to jail, they must wait until their next turn, when they have three options to get out. A player can pay \rotatebox[origin=c]{180}{\textwon}50 to the bank, use a Get Out of Jail Free Card if they have one, or try to roll doubles. A player has up to 3 turns to roll doubles. On the third turn, if the player hasn’t rolled doubles, they must pay \rotatebox[origin=c]{180}{\textwon}50 to the bank and use their third turn dice sum to move around the board.
 
 ## Bankruptcy
-A player is out of the game once they declare bankruptcy. If a player owes more Monopoly money than they have, they must try to raise money before they can declare bankruptcy. A player can raise money by selling buildings. Hotels can be sold to the bank for half the cost and exchanged for 4 houses. Houses can also be sold to the bank for half the cost. Houses must be sold evenly across the color set. Once all houses are sold in a color set, properties can be mortgaged, meaning they are sold to the bank for half their cost. Properties can be unmortgaged if a player, in future turns, pays the bank the unmortgaged cost on the deed card. Rent cannot be collected on mortgaged properties.
+A player is out of the game once they declare bankruptcy. If a player owes more Monopoly money than they have, they must try to raise money before they can declare bankruptcy. A player can raise money by selling buildings. Players can sell hotels to the bank for half price and exchange them for 4 houses. Players can also sell houses to the bank for half price. Houses must be sold evenly across the color set. Once all houses are sold in a color set, properties can be mortgaged, meaning they are sold to the bank for half their cost. Properties can be unmortgaged if a player, in future turns, pays the bank the unmortgaged cost on the deed card. Rent cannot be collected on mortgaged properties.
 
 If a player cannot raise sufficient funds to pay their debts, that player is out of the game and must give all mortgaged properties and any Get Out of Jail Free cards to the player they owe.
 
