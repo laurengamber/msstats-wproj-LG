@@ -1,5 +1,15 @@
 # MS Statistics Writing Project Meeting Notes
 
+## 11/12/26
+_Discussion_:
+* Two phases of the project: (1) Where they land; (2) what they do.
+* Reading about decision theory and utility functions
+* Have a results section with plots/simulations
+
+_Goals for next meeting_:
+* Address any leftover previous goals
+* Start writing related work section
+
 ## 10/29/26
 _Goals for next meeting_:
 * Make sure to keep references up to date - add everything to .bib file. Include in-line references when needed ("\cite{}..."). For example, Monopoly money symbol stack exchange post, game rules. Also keep synced with Zotero library.
